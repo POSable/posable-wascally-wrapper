@@ -1,7 +1,7 @@
 {
-  "name": "steve-test-mod",
+  "name": "posable-wascally-wrapper",
   "version": "1.0.0",
-  "description": "test module",
+  "description": "internal wrapper for wascally",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
