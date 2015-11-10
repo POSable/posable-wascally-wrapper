@@ -1,0 +1,15 @@
+{
+  "name": "steve-test-mod",
+  "version": "1.0.0",
+  "description": "test module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "wascally": "^0.2.7"
+  }
+}
