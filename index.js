@@ -1,7 +1,9 @@
-var wascally = require('wascally');
+var wascallyRabbit = null;
 
-module.exports = {
-    getWascallyClient: function () {
-        return wascally;
-    }
+var WascallyRabbit = require('wascallyWrapper');
+
+if (!wascallyRabbit) {
+    wascallyRabbit = new WascallyRabbit;
 }
+
+module.exports = wascallyRabbit;
