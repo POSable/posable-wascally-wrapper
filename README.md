@@ -1,3 +1,5 @@
+Use npm install git+ssh(or https)://[the git repo]
+
 ##
 Below is an example of how to use this Plugin.
 
