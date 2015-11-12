@@ -1,6 +1,6 @@
 var wascallyRabbit = null;
 
-var WascallyRabbit = require('wascallyWrapper');
+var WascallyRabbit = require('./wascallyWrapper');
 
 if (!wascallyRabbit) {
     wascallyRabbit = new WascallyRabbit;
