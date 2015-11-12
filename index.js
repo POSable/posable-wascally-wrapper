@@ -1,9 +1,3 @@
-var wascallyRabbit = null;
-
 var WascallyRabbit = require('./wascallyWrapper');
+module.exports = new WascallyRabbit;
 
-if (!wascallyRabbit) {
-    wascallyRabbit = new WascallyRabbit;
-}
-
-module.exports = wascallyRabbit;
