@@ -5,22 +5,22 @@ var WascallyRabbit = function() {
 
 WascallyRabbit.prototype.publishObject = function(exchange, type, payload, key) {
     console.log("in publish");
-    this.wascally.publish(exchange, type, payload, key);
+    return this.wascally.publish(exchange, type, payload, key);
 };
 
 WascallyRabbit.prototype.addLogEntry = function(payload) {
     console.log("setting arguments for logging entry");
-    this.publishObject ('all-commands', 'logger.command.addLogEntry', payload, 'service.logging');
+    return this.publishObject ('all-commands', 'logger.command.addLogEntry', payload, 'service.logging');
 };
 
 WascallyRabbit.prototype.raiseNewTransactionEvent = function(payload) {
     console.log("setting arguments for transaction event");
-    this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', payload);
+    return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', payload);
 };
 
 WascallyRabbit.prototype.raiseNewPaymentEvent = function(payload) {
     console.log("setting arguments for payment event");
-    this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', payload);
+    return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', payload);
 };
 
 WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
