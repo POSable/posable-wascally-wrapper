@@ -17,4 +17,16 @@ var messageType = 'posapi.event.receivedCreatePaymentRequest';  // how to name t
 wascallyRabbit.setEnvConnectionValues(env['wascally_connection_parameters']);
 wascallyRabbit.setQSubscription('service.externalIntegration');
 wascallyRabbit.setHandler(messageType, func);
-wascallyRabbit.setup();
+wascallyRabbit.setup("POS-API Service");
+
+To publish messagesEvents;
+
+wascallyRabbit.raiseNewTransactionEvent(payload);
+wascallyRabbit.raiseNewPaymentEvent(payload);
+wascallyRabbit.addLogEntry(logLevel, message, stack);
+
+
+ 
+
+
+
