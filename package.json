@@ -1,6 +1,6 @@
 {
   "name": "posable-wascally-wrapper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "internal wrapper for wascally",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,8 @@
   "private": true,
   "dependencies": {
     "wascally": "^0.2.7"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.2"
   }
 }
