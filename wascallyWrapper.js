@@ -1,6 +1,6 @@
-var WascallyRabbit = function() {
-    this.wascally = require('wascally');
-    this.settings = require('./wascallyConfig').settings;
+var WascallyRabbit = function(wascally, wascallyConfig) {
+    this.wascally = wascally;
+    this.settings = wascallyConfig.settings;
     this.appServiceName = "";
     this.server = require('os').hostname();
 };
@@ -61,3 +61,7 @@ WascallyRabbit.prototype.setup = function(name) {
 };
 
 module.exports = WascallyRabbit;
+
+module.exports.__module = {
+    args: ['wascally', 'wascallyConfig']
+}

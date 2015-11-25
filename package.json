@@ -10,9 +10,11 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
+    "scatter": "^0.7.3",
     "wascally": "^0.2.7"
   },
   "devDependencies": {
-    "jasmine": "^2.3.2"
+    "jasmine": "^2.3.2",
+    "scatter": "^0.7.3",
   }
 }

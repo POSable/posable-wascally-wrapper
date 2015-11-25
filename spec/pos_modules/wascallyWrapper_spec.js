@@ -1,10 +1,8 @@
 describe("Test 'wascallyWrapper' module & 'WascallyRabbit' Class Methods", function() {
     var WascallyRabbit = require('../../wascallyWrapper');
 
-    describe("Check addLogEntry method on a new instance of WascallyRabbit", function (){
-        var wascallyRabbit = new WascallyRabbit;
-        wascallyRabbit.wascally = {};
-        wascallyRabbit.wascally.publish = function() {};
+      describe("Check addLogEntry method on a new instance of WascallyRabbit", function (){
+        var wascallyRabbit = new WascallyRabbit({publish: function(){}},{settings: {}});
         var logLevel = "info";
         var message = "This is a test of the emergency broadcast system, Beeeeeep.";
         var stack = "Here an error there an error, everywhere an error error.";
@@ -20,9 +18,7 @@ describe("Test 'wascallyWrapper' module & 'WascallyRabbit' Class Methods", funct
     });
 
     describe("Check raiseNewTransactionEvent method on a new instance of WascallyRabbit", function (){
-        var wascallyRabbit = new WascallyRabbit;
-        wascallyRabbit.wascally = {};
-        wascallyRabbit.wascally.publish = function() {};
+        var wascallyRabbit = new WascallyRabbit({publish: function(){}},{settings: {}});
         var payload = {};
 
         beforeEach(function() {
@@ -36,9 +32,7 @@ describe("Test 'wascallyWrapper' module & 'WascallyRabbit' Class Methods", funct
     });
 
     describe("Check raiseNewPaymentEvent method on a new instance of WascallyRabbit", function (){
-        var wascallyRabbit = new WascallyRabbit;
-        wascallyRabbit.wascally = {};
-        wascallyRabbit.wascally.publish = function() {};
+        var wascallyRabbit = new WascallyRabbit({publish: function(){}},{settings: {}});
         var payload = {};
 
         beforeEach(function() {
