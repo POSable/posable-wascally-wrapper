@@ -1,24 +1,4 @@
-//var env = process.env.ENV_VARIABLE || 'development';
-//console.log('Environment =', env);
 var connection = {};
-
-//var connDevelopemnt = {
-//    user: 'david.xesllc@gmail.com',
-//    pass: 'deavtdc021076',
-//    server: ['52.89.7.38'],
-//    port: 5672,
-//    vhost: 'dave_dev'
-//};
-//var connProduction = {
-//    user: 'guest',
-//    pass: 'guest',
-//    server: ['52.89.7.38'],
-//    port: 5672,
-//    vhost: '%2f'
-//};
-//
-//if (env) connection = connProduction;
-//if (env === 'development') connection = connDevelopemnt;
 
 var settings = {
 
@@ -38,6 +18,11 @@ var settings = {
         },
         {
             name: 'posapi.event.receivedCreateTransactionRequest',
+            type: 'fanout',
+            autoDelete: false
+        },
+        {
+            name: 'posapi.event.errorResponseSendEmailAndPersist',
             type: 'fanout',
             autoDelete: false
         }
@@ -65,6 +50,11 @@ var settings = {
             name: 'service.externalIntegration',
             autoDelete: false,
             subscribe: false //subscribeTo === 'externalIntegration'
+        },
+        {
+            name: 'service.email',
+            autoDelete: false,
+            subscribe: false //subscribeTo === 'email'
         }
     ],
 
@@ -108,6 +98,21 @@ var settings = {
         {
             exchange: 'posapi.event.receivedCreateTransactionRequest',
             target: 'service.externalIntegration',
+            keys: []
+        },
+        {
+            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            target: 'service.persistence',
+            keys: []
+        },
+        {
+            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            target: 'service.email',
+            keys: []
+        },
+        {
+            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            target: 'service.logging',
             keys: []
         }
     ]
