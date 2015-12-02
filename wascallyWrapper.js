@@ -30,15 +30,15 @@ WascallyRabbit.prototype.raiseNewPaymentEvent = function(payload) {
     var server = this.server;
     var application = this.appServiceName;
     var paymentMessage = require('./messageFactory').raisePaymentEvent(server, application, payload);
-    console.log("setting arguments for errorResponseEmailPersist event");
-    return this.publishObject('posapi.event.errorResponseSendEmailAndPersist', 'posapi.event.errorResponseSendEmailAndPersist', paymentMessage);
+    console.log("setting arguments for payment event");
+    return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', paymentMessage);
 };
 
 WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(payload) {
     var server = this.server;
     var application = this.appServiceName;
     var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(server, application, payload);
-    console.log("setting arguments for payment event");
+    console.log("setting arguments for errorResponseEmailPersist event");
     return this.publishObject('posapi.event.errorResponseSendEmailAndPersist', 'posapi.event.errorResponseSendEmailAndPersist', message);
 };
 
@@ -69,4 +69,6 @@ WascallyRabbit.prototype.setup = function(name) {
 };
 
 module.exports = WascallyRabbit;
+
+
 
