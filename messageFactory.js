@@ -24,8 +24,17 @@ var raisePaymentEvent = function() {
     }
 };
 
+var raiseErrorResponseEmailAndPersist = function() {
+    return {
+        server: arguments[0],
+        application: arguments[1],
+        data: arguments[2]
+    }
+};
+
 module.exports = {
     newLogMessage: newLogMessageObject,
     raisePaymentEvent: raisePaymentEvent,
-    raiseTransactionEvent: raiseTransactionEvent
+    raiseTransactionEvent: raiseTransactionEvent,
+    raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist
 };
