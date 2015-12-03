@@ -25,6 +25,11 @@ var settings = {
             name: 'posapi.event.errorResponseSendEmailAndPersist',
             type: 'fanout',
             autoDelete: false
+        },
+        {
+            name: 'persistence.event.receivedCreateDailySumRequest',
+            type: 'fanout',
+            autoDelete: false
         }
     ],
 
@@ -113,6 +118,16 @@ var settings = {
         {
             exchange: 'posapi.event.errorResponseSendEmailAndPersist',
             target: 'service.logging',
+            keys: []
+        },
+        {
+            exchange: 'persistence.event.receivedCreateDailySumRequest',
+            target: 'service.persistence',
+            keys: []
+        },
+        {
+            exchange: 'persistence.event.receivedCreateDailySumRequest',
+            target: 'service.externalIntegration',
             keys: []
         }
     ]

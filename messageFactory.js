@@ -32,9 +32,18 @@ var raiseErrorResponseEmailAndPersist = function() {
     }
 };
 
+var raiseNewDailySumEvent = function() {
+    return {
+        server: arguments[0],
+        application: arguments[1],
+        data: arguments[2]
+    }
+};
+
 module.exports = {
     newLogMessage: newLogMessageObject,
     raisePaymentEvent: raisePaymentEvent,
     raiseTransactionEvent: raiseTransactionEvent,
-    raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist
+    raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist,
+    raiseNewDailySumEvent: raiseNewDailySumEvent
 };
