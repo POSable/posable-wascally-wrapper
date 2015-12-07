@@ -6,7 +6,7 @@ var WascallyRabbit = function() {
 };
 
 WascallyRabbit.prototype.publishObject = function(exchange, type, payload, key) {
-    console.log("in publish",exchange, type, payload, key)
+    console.log("in publish",exchange, type, payload, key);
     return this.wascally.publish(exchange, type, payload, key);
 };
 
@@ -66,13 +66,15 @@ WascallyRabbit.prototype.setEnvConnectionValues = function(env) {
 
 WascallyRabbit.prototype.setHandler = function (messageType, func) {
     console.log("Setting handler for message type " + messageType);
-    this.wascally.handle(messageType, func);
+    this.wascally.handle(messageType, func).done(function () {
+        console.log("Handler setup successful");
+    });
 };
 
 WascallyRabbit.prototype.setup = function(name) {
     this.appServiceName = name;
     this.wascally.configure(this.settings).done(function () {
-        console.log("Successful connection to RabbitMQ server")
+        console.log("Successful connection to RabbitMQ server");
     });
 };
 
