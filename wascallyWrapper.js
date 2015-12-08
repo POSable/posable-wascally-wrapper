@@ -60,15 +60,15 @@ WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
     });
     this.settings.queues = queArray;
 };
+
 WascallyRabbit.prototype.setEnvConnectionValues = function(env) {
     this.settings.connection = env;
 };
 
 WascallyRabbit.prototype.setHandler = function (messageType, func) {
     console.log("Setting handler for message type " + messageType);
-    this.wascally.handle(messageType, func).done(function () {
-        console.log("Handler setup successful");
-    });
+    this.wascally.handle(messageType, func);
+    console.log("Handler setup successful");
 };
 
 WascallyRabbit.prototype.setup = function(name) {
