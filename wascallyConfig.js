@@ -22,12 +22,12 @@ var settings = {
             autoDelete: false
         },
         {
-            name: 'posapi.event.errorResponseSendEmailAndPersist',
+            name: 'posapi.event.receivedBadApiRequest',
             type: 'fanout',
             autoDelete: false
         },
         {
-            name: 'persistence.event.receivedCreateDailySumRequest',
+            name: 'persistence.event.calculatedFinancialDailySummary',
             type: 'fanout',
             autoDelete: false
         }
@@ -106,27 +106,27 @@ var settings = {
             keys: []
         },
         {
-            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            exchange: 'posapi.event.receivedBadApiRequest',
             target: 'service.persistence',
             keys: []
         },
         {
-            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            exchange: 'posapi.event.receivedBadApiRequest',
             target: 'service.email',
             keys: []
         },
         {
-            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            exchange: 'posapi.event.receivedBadApiRequest',
             target: 'service.logging',
             keys: []
         },
         {
-            exchange: 'persistence.event.receivedCreateDailySumRequest',
+            exchange: 'persistence.event.calculatedFinancialDailySummary',
             target: 'service.persistence',
             keys: []
         },
         {
-            exchange: 'persistence.event.receivedCreateDailySumRequest',
+            exchange: 'persistence.event.calculatedFinancialDailySummary',
             target: 'service.externalIntegration',
             keys: []
         }

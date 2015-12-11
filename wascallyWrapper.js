@@ -38,8 +38,8 @@ WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(payload) {
     var server = this.server;
     var application = this.appServiceName;
     var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(server, application, payload);
-    console.log("setting arguments for errorResponseEmailPersist event");
-    return this.publishObject('posapi.event.errorResponseSendEmailAndPersist', 'posapi.event.errorResponseSendEmailAndPersist', message);
+    console.log("setting arguments for bad request event");
+    return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message);
 };
 
 WascallyRabbit.prototype.raiseNewDailySumEvent = function(payload) {
@@ -47,7 +47,7 @@ WascallyRabbit.prototype.raiseNewDailySumEvent = function(payload) {
     var application = this.appServiceName;
     var dailySumMessage = require('./messageFactory').raiseNewDailySumEvent(server, application, payload);
     console.log("setting arguments for Daily Sum event");
-    return this.publishObject ('persistence.event.receivedCreateDailySumRequest', 'persistence.event.receivedCreateDailySumRequest', dailySumMessage);
+    return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage);
 };
 
 WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
