@@ -18,34 +18,34 @@ WascallyRabbit.prototype.addLogEntry = function(logLevel, message, stack) {
     return this.publishObject ('all-commands', 'logger.command.addLogEntry', logEntryMessage, 'service.logging');
 };
 
-WascallyRabbit.prototype.raiseNewTransactionEvent = function(payload) {
+WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, payload) {
     var server = this.server;
     var application = this.appServiceName;
-    var transactionMessage = require('./messageFactory').raiseTransactionEvent(server, application, payload);
+    var transactionMessage = require('./messageFactory').raiseTransactionEvent(internalID, server, application, payload);
     console.log("setting arguments for transaction event");
     return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage);
 };
 
-WascallyRabbit.prototype.raiseNewPaymentEvent = function(payload) {
+WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
     var server = this.server;
     var application = this.appServiceName;
-    var paymentMessage = require('./messageFactory').raisePaymentEvent(server, application, payload);
+    var paymentMessage = require('./messageFactory').raisePaymentEvent(internalID, server, application, payload);
     console.log("setting arguments for payment event");
     return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', paymentMessage);
 };
 
-WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(payload) {
+WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID, payload) {
     var server = this.server;
     var application = this.appServiceName;
-    var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(server, application, payload);
+    var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(internalID, server, application, payload);
     console.log("setting arguments for bad request event");
     return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message);
 };
 
-WascallyRabbit.prototype.raiseNewDailySumEvent = function(payload) {
+WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, payload) {
     var server = this.server;
     var application = this.appServiceName;
-    var dailySumMessage = require('./messageFactory').raiseNewDailySumEvent(server, application, payload);
+    var dailySumMessage = require('./messageFactory').raiseNewDailySumEvent(internalID, server, application, payload);
     console.log("setting arguments for Daily Sum event");
     return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage);
 };
