@@ -22,8 +22,18 @@ var settings = {
             autoDelete: false
         },
         {
-            name: 'posapi.event.errorResponseSendEmailAndPersist',
+            name: 'posapi.event.receivedBadApiRequest',
             type: 'fanout',
+            autoDelete: false
+        },
+        {
+            name: 'persistence.event.calculatedFinancialDailySummary',
+            type: 'fanout',
+            autoDelete: false
+        },
+        {
+            name: 'event.deadLetter',
+            type: 'direct',
             autoDelete: false
         }
     ],
@@ -55,6 +65,13 @@ var settings = {
             name: 'service.email',
             autoDelete: false,
             subscribe: false //subscribeTo === 'email'
+            //arguments: {'x-dead-letter-exchange': 'event.deadLetter'}
+        },
+        {
+            name: 'service.deadLetter',
+            autoDelete: false,
+            subscribe: false //subscribeTo === 'deadLetter'
+
         }
     ],
 
@@ -101,19 +118,34 @@ var settings = {
             keys: []
         },
         {
-            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            exchange: 'posapi.event.receivedBadApiRequest',
             target: 'service.persistence',
             keys: []
         },
         {
-            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            exchange: 'posapi.event.receivedBadApiRequest',
             target: 'service.email',
             keys: []
         },
         {
-            exchange: 'posapi.event.errorResponseSendEmailAndPersist',
+            exchange: 'posapi.event.receivedBadApiRequest',
             target: 'service.logging',
             keys: []
+        },
+        {
+            exchange: 'persistence.event.calculatedFinancialDailySummary',
+            target: 'service.persistence',
+            keys: []
+        },
+        {
+            exchange: 'persistence.event.calculatedFinancialDailySummary',
+            target: 'service.externalIntegration',
+            keys: []
+        },
+        {
+            exchange: 'event.deadLetter',
+            target: 'service.deadLetter',
+            keys: [ 'service.deadLetter' ]
         }
     ]
 };
