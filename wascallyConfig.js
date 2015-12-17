@@ -30,9 +30,18 @@ var settings = {
             name: 'persistence.event.calculatedFinancialDailySummary',
             type: 'fanout',
             autoDelete: false
+        },
+        {
+            name: 'persistence.event.calculatedFinancialDailySummary',
+            type: 'fanout',
+            autoDelete: false
+        },
+        {
+            name: 'event.deadLetter',
+            type: 'direct',
+            autoDelete: false
         }
     ],
-
     // setup the queues, only subscribing to the one this service
     // will consume messages from
     queues: [
@@ -60,6 +69,13 @@ var settings = {
             name: 'service.email',
             autoDelete: false,
             subscribe: false //subscribeTo === 'email'
+            //arguments: {'x-dead-letter-exchange': 'event.deadLetter'}
+        },
+        {
+            name: 'service.deadLetter',
+            autoDelete: false,
+            subscribe: false //subscribeTo === 'deadLetter'
+
         }
     ],
 
@@ -129,6 +145,11 @@ var settings = {
             exchange: 'persistence.event.calculatedFinancialDailySummary',
             target: 'service.externalIntegration',
             keys: []
+        },
+        {
+            exchange: 'event.deadLetter',
+            target: 'service.deadLetter',
+            keys: [ 'service.deadLetter' ]
         }
     ]
 };
