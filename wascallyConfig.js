@@ -32,12 +32,16 @@ var settings = {
             autoDelete: false
         },
         {
+            name: 'persistence.event.calculatedFinancialDailySummary',
+            type: 'fanout',
+            autoDelete: false
+        },
+        {
             name: 'event.deadLetter',
             type: 'direct',
             autoDelete: false
         }
     ],
-
     // setup the queues, only subscribing to the one this service
     // will consume messages from
     queues: [

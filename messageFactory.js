@@ -10,25 +10,37 @@ var newLogMessageObject = function() {
 
 var raiseTransactionEvent = function() {
     return {
-        server: arguments[0],
-        application: arguments[1],
-        data: arguments[2]
+        internalID: arguments[0],
+        server: arguments[1],
+        application: arguments[2],
+        data: arguments[3]
     }
 };
 
 var raisePaymentEvent = function() {
     return {
-        server: arguments[0],
-        application: arguments[1],
-        data: arguments[2]
+        internalID: arguments[0],
+        server: arguments[1],
+        application: arguments[2],
+        data: arguments[3]
     }
 };
 
 var raiseErrorResponseEmailAndPersist = function() {
     return {
-        server: arguments[0],
-        application: arguments[1],
-        data: arguments[2]
+        internalID: arguments[0],
+        server: arguments[1],
+        application: arguments[2],
+        data: arguments[3]
+    }
+};
+
+var raiseNewDailySumEvent = function() {
+    return {
+        internalID: arguments[0],
+        server: arguments[1],
+        application: arguments[2],
+        data: arguments[3]
     }
 };
 
@@ -36,5 +48,6 @@ module.exports = {
     newLogMessage: newLogMessageObject,
     raisePaymentEvent: raisePaymentEvent,
     raiseTransactionEvent: raiseTransactionEvent,
-    raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist
+    raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist,
+    raiseNewDailySumEvent: raiseNewDailySumEvent
 };
