@@ -35,19 +35,4 @@ describe("Test 'wascallyWrapper' module & 'WascallyRabbit' Class Methods", funct
         });
     });
 
-    describe("Check raiseNewPaymentEvent method on a new instance of WascallyRabbit", function (){
-        var wascallyRabbit = new WascallyRabbit;
-        wascallyRabbit.wascally = {};
-        wascallyRabbit.wascally.publish = function() {};
-        var payload = {};
-
-        beforeEach(function() {
-            spyOn(wascallyRabbit.wascally, 'publish');
-        });
-
-        it("Should call publish on an instance of wascally", function () {
-            wascallyRabbit.raiseNewPaymentEvent(payload);
-            expect(wascallyRabbit.wascally.publish).toHaveBeenCalled();
-        });
-    });
 });

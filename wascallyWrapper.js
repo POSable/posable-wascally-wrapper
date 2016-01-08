@@ -5,9 +5,9 @@ var WascallyRabbit = function() {
     this.server = require('os').hostname();
 };
 
-WascallyRabbit.prototype.publishObject = function(exchange, type, payload, key) {
-    console.log("in publish",exchange, type, payload, key);
-    return this.wascally.publish(exchange, type, payload, key);
+WascallyRabbit.prototype.publishObject = function(exchange, type, payload, key, requestID) {
+    console.log("in publish",exchange, type, payload, key, requestID);
+    return this.wascally.publish(exchange, type, payload, key, requestID);
 };
 
 WascallyRabbit.prototype.addLogEntry = function(logLevel, message, stack) {
@@ -15,31 +15,31 @@ WascallyRabbit.prototype.addLogEntry = function(logLevel, message, stack) {
     var application = this.appServiceName;
     var logEntryMessage = require('./messageFactory').newLogMessage(server, application, logLevel, message, stack);
     console.log("setting arguments for logging entry");
-    return this.publishObject ('all-commands', 'logger.command.addLogEntry', logEntryMessage, 'service.logging');
+    return this.publishObject ('all-commands', 'logger.command.addLogEntry', logEntryMessage, 'service.logging', '');
 };
 
-WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, payload) {
+WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, requestID, payload) {
     var server = this.server;
     var application = this.appServiceName;
     var transactionMessage = require('./messageFactory').raiseTransactionEvent(internalID, server, application, payload);
     console.log("setting arguments for transaction event");
-    return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage);
+    return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage, '', requestID);
 };
 
-WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
-    var server = this.server;
-    var application = this.appServiceName;
-    var paymentMessage = require('./messageFactory').raisePaymentEvent(internalID, server, application, payload);
-    console.log("setting arguments for payment event");
-    return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', paymentMessage);
-};
+//WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
+//    var server = this.server;
+//    var application = this.appServiceName;
+//    var paymentMessage = require('./messageFactory').raisePaymentEvent(internalID, server, application, payload);
+//    console.log("setting arguments for payment event");
+//    return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', paymentMessage);
+//};
 
 WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID, payload) {
     var server = this.server;
     var application = this.appServiceName;
     var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(internalID, server, application, payload);
     console.log("setting arguments for bad request event");
-    return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message);
+    return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message, '', '');
 };
 
 WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, payload) {
@@ -47,7 +47,7 @@ WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, payload) {
     var application = this.appServiceName;
     var dailySumMessage = require('./messageFactory').raiseNewDailySumEvent(internalID, server, application, payload);
     console.log("setting arguments for Daily Sum event");
-    return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage);
+    return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage, '', '');
 };
 
 WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
