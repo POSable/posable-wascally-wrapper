@@ -15,7 +15,7 @@ WascallyRabbit.prototype.addLogEntry = function(logLevel, message, stack) {
     var application = this.appServiceName;
     var logEntryMessage = require('./messageFactory').newLogMessage(server, application, logLevel, message, stack);
     console.log("setting arguments for logging entry");
-    return this.publishObject ('all-commands', 'logger.command.addLogEntry', logEntryMessage, 'service.logging', '');
+    return this.publishObject ('all-commands', 'logger.command.addLogEntry', logEntryMessage, 'service.logging', undefined);
 };
 
 WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, requestID, payload) {
@@ -23,7 +23,7 @@ WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, request
     var application = this.appServiceName;
     var transactionMessage = require('./messageFactory').raiseTransactionEvent(internalID, server, application, payload);
     console.log("setting arguments for transaction event");
-    return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage, '', requestID);
+    return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage, undefined, requestID);
 };
 
 //WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
@@ -39,7 +39,7 @@ WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID
     var application = this.appServiceName;
     var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(internalID, server, application, payload);
     console.log("setting arguments for bad request event");
-    return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message, '', '');
+    return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message, undefined, undefined);
 };
 
 WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, payload) {
@@ -47,7 +47,7 @@ WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, payload) {
     var application = this.appServiceName;
     var dailySumMessage = require('./messageFactory').raiseNewDailySumEvent(internalID, server, application, payload);
     console.log("setting arguments for Daily Sum event");
-    return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage, '', '');
+    return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage, undefined, undefined);
 };
 
 WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
