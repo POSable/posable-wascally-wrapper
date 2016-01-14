@@ -5,9 +5,51 @@ var WascallyRabbit = function() {
     this.server = require('os').hostname();
 };
 
+WascallyRabbit.prototype.republishWithMsgCounter = function(msg) {
+    return this.wascally.publish(msg.fields.exchange, {
+        type: msg.type,
+        body: msg.body,
+        routingKey: msg.key,
+        correlationId: msg.correlationId,
+        headers: {retryCount: ++msg.properties.headers.retryCount}
+    });
+};
+
 WascallyRabbit.prototype.publishObject = function(exchange, type, payload, key, requestID) {
     console.log("in publish",exchange, type, payload, key, requestID);
-    return this.wascally.publish(exchange, type, payload, key, requestID);
+    return this.wascally.publish(exchange, {
+        type: type,
+        body: payload,
+        routingKey: key,
+        correlationId: requestID,
+        headers: {retryCount: 0}
+    });
+};
+
+WascallyRabbit.prototype.rabbitDispose = function(msg, err) {
+    var retrySuccess = function () { msg.ack(); };
+    var retryAbort = function (err) {
+        console.log(err);
+        msg.nack();
+    };
+    try {
+        if (err) {
+            var msgCount = msg.properties.headers.retryCount;
+            if (err.deadLetter === true || msgCount >= this.settings.connection.levelOne_retries) {
+                console.log('Message sent to dead letter que');
+                msg.reject();
+            } else {
+                console.log('Message republished: Retry #' + msgCount);
+                this.republishWithMsgCounter(msg).then(retrySuccess(), retryAbort(err));
+            }
+        } else {
+            console.log('Message acked');
+            msg.ack();
+        }
+    } catch (err) {
+        console.log('System Error in Rabbit Message Dispose');
+        throw err;
+    }
 };
 
 WascallyRabbit.prototype.addLogEntry = function(logLevel, message, stack) {
@@ -25,7 +67,7 @@ WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, request
     console.log("setting arguments for transaction event");
     return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage, undefined, requestID);
 };
-
+// Payment endpoint -- deprecated
 //WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
 //    var server = this.server;
 //    var application = this.appServiceName;
