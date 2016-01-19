@@ -1,46 +1,76 @@
+var uuid = require('node-uuid');
+
 var WascallyRabbit = function() {
     this.wascally = require('wascally');
     this.settings = require('./wascallyConfig').settings;
     this.appServiceName = "";
     this.server = require('os').hostname();
+    this.subscribedQ = "";
 };
 
-WascallyRabbit.prototype.republishWithMsgCounter = function(msg) {
-    return this.wascally.publish(msg.fields.exchange, {
-        type: msg.type,
-        body: msg.body,
-        routingKey: msg.key,
-        correlationId: msg.correlationId,
-        headers: {retryCount: ++msg.properties.headers.retryCount}
-    });
+WascallyRabbit.prototype.republish_withMsgCounter = function(msg) {
+    var level1_count = msg.properties.headers.level1_retryCount;
+    var level2_count = msg.properties.headers.level2_retryCount;
+    var env = this.settings.connection;
+    var messageID = uuid.v4();
+    function continue_level2_retries() { return (level1_count >= env.level1_retries) && (level2_count <= env.level2_retries);}
+
+    if (level1_count <= env.level1_retries) {
+        return this.wascally.publish('all-commands', {
+            type: msg.type,
+            body: msg.body,
+            routingKey: this.subscribedQ,
+            correlationId: msg.properties.correlationId,
+            messageId: messageID,
+            headers: {level1_retryCount: ++level1_count, level2_retryCount: level2_count}
+        });
+    } else if (continue_level2_retries()) {
+        return this.wascally.publish('level2.retry', {
+            type: msg.type,
+            body: msg.body,
+            routingKey: this.subscribedQ,
+            correlationId: msg.properties.correlationId,
+            messageId: messageID,
+            headers: {level1_retryCount: level1_count, level2_retryCount: ++level2_count}
+        });
+    }
 };
 
 WascallyRabbit.prototype.publishObject = function(exchange, type, payload, key, requestID) {
-    console.log("in publish",exchange, type, payload, key, requestID);
+    console.log("in publish", exchange, type, payload, key, requestID);
+    var messageID = uuid.v4();
     return this.wascally.publish(exchange, {
         type: type,
         body: payload,
         routingKey: key,
         correlationId: requestID,
-        headers: {retryCount: 0}
+        messageId: messageID,
+        headers: {level1_retryCount: 0, level2_retryCount: 0}
     });
 };
 
 WascallyRabbit.prototype.rabbitDispose = function(msg, err) {
-    var retrySuccess = function () { msg.ack(); };
-    var retryAbort = function (err) {
+    var level1_count = msg.properties.headers.level1_retryCount;
+    var level2_count = msg.properties.headers.level2_retryCount;
+    var env = this.settings.connection;
+
+    function out_of_retries() {return (level1_count >= env.level1_retries) && (level2_count >= env.level2_retries);}
+    function republishSuccess() {
+        console.log('Message: '+ msg.properties.messageId +'- Successful republish, msg acked');
+        msg.ack(); }
+    function republishFailure(err) {
+        console.log('Message: '+ msg.properties.messageId +'- Failed republish, msg nacked');
         console.log(err);
-        msg.nack();
-    };
+        msg.nack(); }
+
     try {
         if (err) {
-            var msgCount = msg.properties.headers.retryCount;
-            if (err.deadLetter === true || msgCount >= this.settings.connection.levelOne_retries) {
-                console.log('Message sent to dead letter que');
+            if (err.deadLetter === true || out_of_retries()) {
+                console.log('Message: '+ msg.properties.messageId +'- sent to dead letter que');
                 msg.reject();
             } else {
-                console.log('Message republished: Retry #' + msgCount);
-                this.republishWithMsgCounter(msg).then(retrySuccess(), retryAbort(err));
+                console.log('Message Retry #' + (level1_count + level2_count));
+                this.republish_withMsgCounter(msg).then(republishSuccess(), republishFailure(err));
             }
         } else {
             console.log('Message acked');
@@ -67,14 +97,6 @@ WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, request
     console.log("setting arguments for transaction event");
     return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage, undefined, requestID);
 };
-// Payment endpoint -- deprecated
-//WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
-//    var server = this.server;
-//    var application = this.appServiceName;
-//    var paymentMessage = require('./messageFactory').raisePaymentEvent(internalID, server, application, payload);
-//    console.log("setting arguments for payment event");
-//    return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', paymentMessage);
-//};
 
 WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID, payload) {
     var server = this.server;
@@ -100,6 +122,7 @@ WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
         }
         return que
     });
+    this.subscribedQ = nameOfQ;
     this.settings.queues = queArray;
 };
 
@@ -117,8 +140,19 @@ WascallyRabbit.prototype.setup = function(name) {
     this.appServiceName = name;
     this.wascally.configure(this.settings).done(function () {
         console.log("Successful connection to RabbitMQ server");
+    }, function(err) {
+        console.log('Rejected: ' + err);
     });
 };
+
+// Used for payment endpoint -- deprecated
+//WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
+//    var server = this.server;
+//    var application = this.appServiceName;
+//    var paymentMessage = require('./messageFactory').raisePaymentEvent(internalID, server, application, payload);
+//    console.log("setting arguments for payment event");
+//    return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', paymentMessage);
+//};
 
 module.exports = WascallyRabbit;
 

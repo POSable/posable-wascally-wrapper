@@ -10,6 +10,7 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
+    "node-uuid": "^1.4.7",
     "wascally": "^0.2.7"
   },
   "devDependencies": {
