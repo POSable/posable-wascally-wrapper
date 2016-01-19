@@ -12,6 +12,11 @@ var settings = {
             autoDelete: false
         },
         {
+            name: 'internal.delayExchange',
+            type: 'fanout',
+            autoDelete: false
+        },
+        {
             name: 'posapi.event.receivedCreatePaymentRequest',
             type: 'fanout',
             autoDelete: false
@@ -51,6 +56,11 @@ var settings = {
             subscribe: false //subscribeTo === 'posapi'
         },
         {
+            name: 'internal.delayQ',
+            autoDelete: false,
+            subscribe: false
+        },
+        {
             name: 'service.logging',
             autoDelete: false,
             subscribe: false //subscribeTo === 'logging'
@@ -85,6 +95,11 @@ var settings = {
             exchange: 'all-commands',
             target: 'service.posapi',
             keys: [ 'service.posapi' ]
+        },
+        {
+            exchange: 'internal.delayExchange',
+            target: 'internal.delayQ',
+            keys: []
         },
         {
             exchange: 'all-commands',
