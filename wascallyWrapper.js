@@ -25,7 +25,7 @@ WascallyRabbit.prototype.republish_withMsgCounter = function(msg) {
             headers: {level1_retryCount: ++level1_count, level2_retryCount: level2_count}
         });
     } else if (continue_level2_retries()) {
-        return this.wascally.publish('level2.retry', {
+        return this.wascally.publish('internal.delayExchange', {
             type: msg.type,
             body: msg.body,
             routingKey: this.subscribedQ,
