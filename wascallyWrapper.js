@@ -15,7 +15,7 @@ WascallyRabbit.prototype.republish_withMsgCounter = function(msg) {
     var messageID = uuid.v4();
     function continue_level2_retries() { return (level1_count >= env.level1_retries) && (level2_count <= env.level2_retries);}
 
-    if (level1_count <= env.level1_retries) {
+    if (level1_count < env.level1_retries) {
         return this.wascally.publish('all-commands', {
             type: msg.type,
             body: msg.body,
@@ -33,6 +33,8 @@ WascallyRabbit.prototype.republish_withMsgCounter = function(msg) {
             messageId: messageID,
             headers: {level1_retryCount: level1_count, level2_retryCount: ++level2_count}
         });
+    } else {
+        throw new Error('Message: '+ msg.properties.messageId +' - Error republishing');
     }
 };
 
@@ -53,24 +55,23 @@ WascallyRabbit.prototype.rabbitDispose = function(msg, err) {
     var level1_count = msg.properties.headers.level1_retryCount;
     var level2_count = msg.properties.headers.level2_retryCount;
     var env = this.settings.connection;
-
     function out_of_retries() {return (level1_count >= env.level1_retries) && (level2_count >= env.level2_retries);}
-    function republishSuccess() {
-        console.log('Message: '+ msg.properties.messageId +'- Successful republish, msg acked');
-        msg.ack(); }
-    function republishFailure(err) {
-        console.log('Message: '+ msg.properties.messageId +'- Failed republish, msg nacked');
-        console.log(err);
-        msg.nack(); }
 
     try {
         if (err) {
             if (err.deadLetter === true || out_of_retries()) {
-                console.log('Message: '+ msg.properties.messageId +'- sent to dead letter que');
+                console.log('Message: '+ msg.properties.messageId +' - Sent to dead letter que');
                 msg.reject();
             } else {
                 console.log('Message Retry #' + (level1_count + level2_count));
-                this.republish_withMsgCounter(msg).then(republishSuccess(), republishFailure(err));
+                this.republish_withMsgCounter(msg).then(function() {
+                    console.log('Message: '+ msg.properties.messageId +' - Successful republish, msg acked');
+                    msg.ack();
+                }, function(err) {
+                    console.log('Message: '+ msg.properties.messageId +' - Failed republish, msg nacked');
+                    console.log(err);
+                    msg.nack();
+                });
             }
         } else {
             console.log('Message acked');
