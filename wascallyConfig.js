@@ -9,42 +9,50 @@ var settings = {
         {
             name: 'all-commands',
             type: 'direct',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         },
         {
             name: 'internal.delayExchange',
             type: 'fanout',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         },
         {
             name: 'posapi.event.receivedCreatePaymentRequest',
             type: 'fanout',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         },
         {
             name: 'posapi.event.receivedCreateTransactionRequest',
             type: 'fanout',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         },
         {
             name: 'posapi.event.receivedBadApiRequest',
             type: 'fanout',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         },
         {
             name: 'persistence.event.calculatedFinancialDailySummary',
             type: 'fanout',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         },
         {
             name: 'persistence.event.calculatedFinancialDailySummary',
             type: 'fanout',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         },
         {
             name: 'event.deadLetter',
             type: 'direct',
-            autoDelete: false
+            autoDelete: false,
+            persistent: true
         }
     ],
     // setup the queues, only subscribing to the one this service
