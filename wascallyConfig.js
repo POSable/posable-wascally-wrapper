@@ -43,12 +43,6 @@ var settings = {
             persistent: true
         },
         {
-            name: 'persistence.event.calculatedFinancialDailySummary',
-            type: 'fanout',
-            autoDelete: false,
-            persistent: true
-        },
-        {
             name: 'event.deadLetter',
             type: 'direct',
             autoDelete: false,
