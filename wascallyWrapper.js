@@ -107,7 +107,7 @@ WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID
     return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message, undefined, undefined);
 };
 
-WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, requestID, payload) {
+WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, payload) {
     var server = this.server;
     var application = this.appServiceName;
     var messageID = uuid.v4();
