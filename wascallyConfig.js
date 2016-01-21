@@ -159,11 +159,11 @@ var settings = {
             target: 'service.logging',
             keys: []
         },
-        {
-            exchange: 'persistence.event.calculatedFinancialDailySummary',
-            target: 'service.persistence',
-            keys: []
-        },
+        //{
+        //    exchange: 'persistence.event.calculatedFinancialDailySummary',
+        //    target: 'service.persistence',
+        //    keys: []
+        //},
         {
             exchange: 'persistence.event.calculatedFinancialDailySummary',
             target: 'service.externalIntegration',
