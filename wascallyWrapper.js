@@ -110,9 +110,10 @@ WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID
 WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, requestID, payload) {
     var server = this.server;
     var application = this.appServiceName;
+    var messageID = uuid.v4();
     var dailySumMessage = require('./messageFactory').raiseNewDailySumEvent(internalID, server, application, payload);
     console.log("setting arguments for Daily Sum event");
-    return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage, undefined, requestID);
+    return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage, undefined, messageID);
 };
 
 WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
