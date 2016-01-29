@@ -31,7 +31,8 @@ var raiseErrorResponseEmailAndPersist = function() {
         internalID: arguments[0],
         server: arguments[1],
         application: arguments[2],
-        data: arguments[3]
+        error: arguments[3],
+        data: arguments[4]
     }
 };
 

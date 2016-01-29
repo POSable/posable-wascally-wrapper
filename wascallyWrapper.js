@@ -99,12 +99,12 @@ WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, request
     return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage, undefined, requestID);
 };
 
-WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID, payload) {
+WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID, requestID, errorStatus, payload) {
     var server = this.server;
     var application = this.appServiceName;
-    var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(internalID, server, application, payload);
+    var message = require('./messageFactory').raiseErrorResponseEmailAndPersist(internalID, server, application, errorStatus, payload);
     console.log("setting arguments for bad request event");
-    return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message, undefined, undefined);
+    return this.publishObject('posapi.event.receivedBadApiRequest', 'posapi.event.receivedBadApiRequest', message, undefined, requestID);
 };
 
 WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, requestID, payload) {
