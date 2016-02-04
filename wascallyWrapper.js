@@ -137,12 +137,14 @@ WascallyRabbit.prototype.setHandler = function (messageType, func) {
     console.log("Handler setup successful");
 };
 
-WascallyRabbit.prototype.setup = function(name) {
+WascallyRabbit.prototype.setup = function(name, callback) {
     this.appServiceName = name;
-    this.wascally.configure(this.settings).done(function () {
-        console.log("Successful connection to RabbitMQ server");
-    }, function(err) {
-        console.log('Rejected: ' + err);
+    this.wascally.configure(this.settings).done(function (err) {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, 'Successful connection to RabbitMQ server');
+        }
     });
 };
 
