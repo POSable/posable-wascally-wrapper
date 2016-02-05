@@ -44,10 +44,20 @@ var raiseNewDailySumEvent = function() {
     }
 };
 
+var raiseNewBatchCommand = function() {
+    return {
+        internalID: arguments[0],
+        server: arguments[1],
+        application: arguments[2],
+        data: arguments[3]
+    }
+};
+
 module.exports = {
     newLogMessage: newLogMessageObject,
     raisePaymentEvent: raisePaymentEvent,
     raiseTransactionEvent: raiseTransactionEvent,
     raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist,
-    raiseNewDailySumEvent: raiseNewDailySumEvent
+    raiseNewDailySumEvent: raiseNewDailySumEvent,
+    raiseNewBatchCommand: raiseNewBatchCommand
 };
