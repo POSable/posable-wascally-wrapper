@@ -5,7 +5,7 @@ var WascallyRabbit = function() {
     this.settings = require('./wascallyConfig').settings;
     this.appServiceName = "";
     this.server = require('os').hostname();
-    this.subscribedQ = "";
+    this.subscribedQ = ""
 };
 
 WascallyRabbit.prototype.republish_withMsgCounter = function(msg) {
@@ -16,6 +16,7 @@ WascallyRabbit.prototype.republish_withMsgCounter = function(msg) {
     function continue_level2_retries() { return (level1_count >= env.level1_retries) && (level2_count <= env.level2_retries);}
 
     if (level1_count < env.level1_retries) {
+        console.log('qsqsqssqsqsqs', this.wascally.publish(1,2))
         return this.wascally.publish('all-commands', {
             type: msg.type,
             body: msg.body,
@@ -155,15 +156,6 @@ WascallyRabbit.prototype.setup = function(name, callback) {
         }
     });
 };
-
-// Used for payment endpoint -- deprecated
-//WascallyRabbit.prototype.raiseNewPaymentEvent = function(internalID, payload) {
-//    var server = this.server;
-//    var application = this.appServiceName;
-//    var paymentMessage = require('./messageFactory').raisePaymentEvent(internalID, server, application, payload);
-//    console.log("setting arguments for payment event");
-//    return this.publishObject('posapi.event.receivedCreatePaymentRequest', 'posapi.event.receivedCreatePaymentRequest', paymentMessage);
-//};
 
 module.exports = WascallyRabbit;
 
