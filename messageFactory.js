@@ -45,7 +45,7 @@ var raiseNewDailySumEvent = function() {
     }
 };
 
-var raiseNewBatchCommand = function() {
+var calculateBatchTotals = function() {
     return {
         internalID: arguments[0],
         server: arguments[1],
@@ -60,5 +60,5 @@ module.exports = {
     raiseTransactionEvent: raiseTransactionEvent,
     raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist,
     raiseNewDailySumEvent: raiseNewDailySumEvent,
-    raiseNewBatchCommand: raiseNewBatchCommand
+    calculateBatchTotals: calculateBatchTotals
 };

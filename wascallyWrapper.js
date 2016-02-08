@@ -115,12 +115,12 @@ WascallyRabbit.prototype.raiseNewDailySumEvent = function(internalID, requestID,
     return this.publishObject ('persistence.event.calculatedFinancialDailySummary', 'persistence.event.calculatedFinancialDailySummary', dailySumMessage, undefined, requestID);
 };
 
-WascallyRabbit.prototype.raiseNewBatchCommand = function(internalID, batchTime) {
+WascallyRabbit.prototype.calculateBatchTotals= function(internalID, batchTime) {
     var server = this.server;
     var application = this.appServiceName;
-    var batchRequestMessage = require('./messageFactory').raiseNewBatchCommand(internalID, server, application, batchTime);
+    var batchRequestMessage = require('./messageFactory').calculateBatchTotals(internalID, server, application, batchTime);
     console.log("setting arguments for batch request");
-    return this.publishObject ('all-commands', 'persistence.command.raiseNewBatchCommand', batchRequestMessage, 'service.persistence', undefined);
+    return this.publishObject ('all-commands', 'persistence.command.calculateBatchTotals', batchRequestMessage, 'service.persistence', undefined);
 };
 
 WascallyRabbit.prototype.setQSubscription = function(nameOfQ) {
