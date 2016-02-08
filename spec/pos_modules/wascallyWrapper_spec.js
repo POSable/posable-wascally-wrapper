@@ -157,7 +157,7 @@ describe("Test 'wascallyWrapper' module & 'WascallyRabbit' Class Methods", funct
         });
     });
 
-    describe("Check raiseNewBatchCommand method on a new instance of WascallyRabbit", function (){
+    describe("Check calculateBatchTotals method on a new instance of WascallyRabbit", function (){
         wascallyRabbit.wascally = {};
         wascallyRabbit.wascally.publish = function() {};
         var payload = {};
@@ -167,22 +167,7 @@ describe("Test 'wascallyWrapper' module & 'WascallyRabbit' Class Methods", funct
         });
 
         it("Should call publish on an instance of wascally", function () {
-            wascallyRabbit.raiseNewBatchCommand(payload);
-            expect(wascallyRabbit.wascally.publish).toHaveBeenCalled();
-        });
-    });
-
-    describe("Check setQSubscription method on a new instance of WascallyRabbit", function (){
-        wascallyRabbit.wascally = {};
-        wascallyRabbit.wascally.publish = function() {};
-        var payload = {};
-
-        beforeEach(function() {
-            spyOn(wascallyRabbit.wascally, 'publish');
-        });
-
-        it("Should call publish on an instance of wascally", function () {
-            wascallyRabbit.raiseNewBatchCommand(payload);
+            wascallyRabbit.calculateBatchTotals(payload);
             expect(wascallyRabbit.wascally.publish).toHaveBeenCalled();
         });
     });
