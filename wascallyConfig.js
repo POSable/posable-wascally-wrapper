@@ -55,39 +55,44 @@ var settings = {
         {
             name: 'service.posapi',
             autoDelete: false,
-            subscribe: false //subscribeTo === 'posapi'
+            subscribe: false, //subscribeTo === 'posapi'
+            limit: 1
         },
         {
             name: 'internal.delayQ',
             autoDelete: false,
-            subscribe: false
+            subscribe: false,
+            limit: 1
         },
         {
             name: 'service.logging',
             autoDelete: false,
-            subscribe: false //subscribeTo === 'logging'
+            subscribe: false, //subscribeTo === 'logging'
+            limit: 1
         },
         {
             name: 'service.persistence',
             autoDelete: false,
-            subscribe: false //subscribeTo === 'persistence'
+            subscribe: false, //subscribeTo === 'persistence'
+            limit: 1
         },
         {
             name: 'service.externalIntegration',
             autoDelete: false,
-            subscribe: false //subscribeTo === 'externalIntegration'
+            subscribe: false, //subscribeTo === 'externalIntegration'
+            limit: 1
         },
         {
             name: 'service.email',
             autoDelete: false,
-            subscribe: false //subscribeTo === 'email'
-            //arguments: {'x-dead-letter-exchange': 'event.deadLetter'}
+            subscribe: false, //subscribeTo === 'email'
+            limit: 1
         },
         {
             name: 'service.deadLetter',
             autoDelete: false,
-            subscribe: false //subscribeTo === 'deadLetter'
-
+            subscribe: false, //subscribeTo === 'deadLetter'
+            limit: 1
         }
     ],
 
