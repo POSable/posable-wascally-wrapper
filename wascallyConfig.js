@@ -56,43 +56,43 @@ var settings = {
             name: 'service.posapi',
             autoDelete: false,
             subscribe: false, //subscribeTo === 'posapi'
-            limit: 1
+            limit: 500
         },
         {
             name: 'internal.delayQ',
             autoDelete: false,
             subscribe: false,
-            limit: 1
+            limit: 500
         },
         {
             name: 'service.logging',
             autoDelete: false,
             subscribe: false, //subscribeTo === 'logging'
-            limit: 1
+            limit: 500
         },
         {
             name: 'service.persistence',
             autoDelete: false,
             subscribe: false, //subscribeTo === 'persistence'
-            limit: 1
+            limit: 500
         },
         {
             name: 'service.externalIntegration',
             autoDelete: false,
             subscribe: false, //subscribeTo === 'externalIntegration'
-            limit: 1
+            limit: 500
         },
         {
             name: 'service.email',
             autoDelete: false,
             subscribe: false, //subscribeTo === 'email'
-            limit: 1
+            limit: 500
         },
         {
             name: 'service.deadLetter',
             autoDelete: false,
             subscribe: false, //subscribeTo === 'deadLetter'
-            limit: 1
+            limit: 500
         }
     ],
 
