@@ -1,6 +1,6 @@
 {
   "name": "posable-wascally-wrapper",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "internal wrapper for wascally",
   "main": "index.js",
   "scripts": {
