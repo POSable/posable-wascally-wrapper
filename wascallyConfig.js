@@ -154,16 +154,6 @@ var settings = {
             keys: []
         },
         {
-            exchange: 'posapi.event.receivedBadApiRequest',
-            target: 'service.logging',
-            keys: []
-        },
-        //{
-        //    exchange: 'persistence.event.calculatedFinancialDailySummary',
-        //    target: 'service.persistence',
-        //    keys: []
-        //},
-        {
             exchange: 'persistence.event.calculatedFinancialDailySummary',
             target: 'service.externalIntegration',
             keys: []
