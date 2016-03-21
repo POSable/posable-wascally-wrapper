@@ -107,7 +107,7 @@ WascallyRabbit.prototype.raiseNewVoidEvent = function(internalID, requestID, pay
     return this.publishObject ('posapi.event.receivedCreateVoidRequest', 'posapi.event.receivedCreateVoidRequest', voidMessage, undefined, requestID);
 };
 
-WascallyRabbit.prototype.raiseNewRedfundEvent = function(internalID, requestID, payload) {
+WascallyRabbit.prototype.raiseNewRefundEvent = function(internalID, requestID, payload) {
     var server = this.server;
     var application = this.appServiceName;
     var refundMessage = require('./messageFactory').raiseRefundEvent(internalID, server, application, payload);

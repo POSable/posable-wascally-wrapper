@@ -76,6 +76,8 @@ module.exports = {
     newLogMessage: newLogMessageObject,
     raisePaymentEvent: raisePaymentEvent,
     raiseTransactionEvent: raiseTransactionEvent,
+    raiseVoidEvent: raiseVoidEvent,
+    raiseRefundEvent: raiseRefundEvent,
     raiseErrorResponseEmailAndPersist: raiseErrorResponseEmailAndPersist,
     raiseNewDailySumEvent: raiseNewDailySumEvent,
     calculateBatchTotals: calculateBatchTotals
