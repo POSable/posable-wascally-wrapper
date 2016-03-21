@@ -16,7 +16,6 @@ WascallyRabbit.prototype.republish_withMsgCounter = function(msg) {
     function continue_level2_retries() { return (level1_count >= env.level1_retries) && (level2_count <= env.level2_retries);}
 
     if (level1_count < env.level1_retries) {
-        console.log('qsqsqssqsqsqs', this.wascally.publish(1,2))
         return this.wascally.publish('all-commands', {
             type: msg.type,
             body: msg.body,
@@ -98,6 +97,22 @@ WascallyRabbit.prototype.raiseNewTransactionEvent = function(internalID, request
     var transactionMessage = require('./messageFactory').raiseTransactionEvent(internalID, server, application, payload);
     console.log("setting arguments for transaction event");
     return this.publishObject ('posapi.event.receivedCreateTransactionRequest', 'posapi.event.receivedCreateTransactionRequest', transactionMessage, undefined, requestID);
+};
+
+WascallyRabbit.prototype.raiseNewVoidEvent = function(internalID, requestID, payload) {
+    var server = this.server;
+    var application = this.appServiceName;
+    var voidMessage = require('./messageFactory').raiseVoidEvent(internalID, server, application, payload);
+    console.log("setting arguments for void event");
+    return this.publishObject ('posapi.event.receivedCreateVoidRequest', 'posapi.event.receivedCreateVoidRequest', voidMessage, undefined, requestID);
+};
+
+WascallyRabbit.prototype.raiseNewRefundEvent = function(internalID, requestID, payload) {
+    var server = this.server;
+    var application = this.appServiceName;
+    var refundMessage = require('./messageFactory').raiseRefundEvent(internalID, server, application, payload);
+    console.log("setting arguments for refund event");
+    return this.publishObject ('posapi.event.receivedCreateRefundRequest', 'posapi.event.receivedCreateRefundRequest', refundMessage, undefined, requestID);
 };
 
 WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID, requestID, errorStatus, payload) {
