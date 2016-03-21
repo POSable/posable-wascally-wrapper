@@ -17,6 +17,24 @@ var raiseTransactionEvent = function() {
     }
 };
 
+var raiseVoidEvent = function() {
+    return {
+        internalID: arguments[0],
+        server: arguments[1],
+        application: arguments[2],
+        data: arguments[3]
+    }
+};
+
+var raiseRefundEvent = function() {
+    return {
+        internalID: arguments[0],
+        server: arguments[1],
+        application: arguments[2],
+        data: arguments[3]
+    }
+};
+
 var raisePaymentEvent = function() {
     return {
         internalID: arguments[0],

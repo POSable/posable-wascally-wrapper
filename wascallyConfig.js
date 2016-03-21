@@ -31,6 +31,18 @@ var settings = {
             persistent: true
         },
         {
+            name: 'posapi.event.receivedCreateVoidRequest',
+            type: 'fanout',
+            autoDelete: false,
+            persistent: true
+        },
+        {
+            name: 'posapi.event.receivedCreateRefundRequest',
+            type: 'fanout',
+            autoDelete: false,
+            persistent: true
+        },
+        {
             name: 'posapi.event.receivedBadApiRequest',
             type: 'fanout',
             autoDelete: false,
@@ -139,7 +151,27 @@ var settings = {
             keys: []
         },
         {
+            exchange: 'posapi.event.receivedCreateVoidRequest',
+            target: 'service.persistence',
+            keys: []
+        },
+        {
+            exchange: 'posapi.event.receivedCreateRefundRequest',
+            target: 'service.persistence',
+            keys: []
+        },
+        {
             exchange: 'posapi.event.receivedCreateTransactionRequest',
+            target: 'service.externalIntegration',
+            keys: []
+        },
+        {
+            exchange: 'posapi.event.receivedCreateVoidRequest',
+            target: 'service.externalIntegration',
+            keys: []
+        },
+        {
+            exchange: 'posapi.event.receivedCreateRefundRequest',
             target: 'service.externalIntegration',
             keys: []
         },
