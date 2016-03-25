@@ -120,7 +120,7 @@ WascallyRabbit.prototype.raiseNewPayloadAuditEvent = function(internalID, reques
     var server = this.server;
     var application = this.appServiceName;
     var payloadAuditMessage = require('./messageFactory').raisePayloadAuditEvent(internalID, server, application, payload);
-    console.log("setting arguments for refund event");
+    console.log("setting arguments for audit event");
     return this.publishObject ('posapi.event.receivedCreatePayloadAudit', 'posapi.event.receivedCreatePayloadAudit', payloadAuditMessage, undefined, requestID);
 };
 
