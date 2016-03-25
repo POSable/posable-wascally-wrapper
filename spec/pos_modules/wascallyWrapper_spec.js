@@ -157,6 +157,21 @@ describe("Test 'wascallyWrapper' module & 'WascallyRabbit' Class Methods", funct
         });
     });
 
+    describe("Check raiseNewPayloadAuditEvent method on a new instance of WascallyRabbit", function (){
+        wascallyRabbit.wascally = {};
+        wascallyRabbit.wascally.publish = function() {};
+        var payload = {};
+
+        beforeEach(function() {
+            spyOn(wascallyRabbit.wascally, 'publish');
+        });
+
+        it("Should call publish on an instance of wascally", function () {
+            wascallyRabbit.raiseNewPayloadAuditEvent(payload);
+            expect(wascallyRabbit.wascally.publish).toHaveBeenCalled();
+        });
+    });
+
     describe("Check raiseErrorResponseEmailAndPersist method on a new instance of WascallyRabbit", function (){
         wascallyRabbit.wascally = {};
         wascallyRabbit.wascally.publish = function() {};
