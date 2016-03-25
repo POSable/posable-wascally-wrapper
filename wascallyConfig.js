@@ -55,6 +55,12 @@ var settings = {
             persistent: true
         },
         {
+            name: 'posapi.event.receivedCreatePayloadAudit',
+            type: 'fanout',
+            autoDelete: false,
+            persistent: true
+        },
+        {
             name: 'event.deadLetter',
             type: 'direct',
             autoDelete: false,
@@ -157,6 +163,11 @@ var settings = {
         },
         {
             exchange: 'posapi.event.receivedCreateRefundRequest',
+            target: 'service.persistence',
+            keys: []
+        },
+        {
+            exchange: 'posapi.event.receivedCreatePayloadAudit',
             target: 'service.persistence',
             keys: []
         },

@@ -115,6 +115,15 @@ WascallyRabbit.prototype.raiseNewRefundEvent = function(internalID, requestID, p
     return this.publishObject ('posapi.event.receivedCreateRefundRequest', 'posapi.event.receivedCreateRefundRequest', refundMessage, undefined, requestID);
 };
 
+
+WascallyRabbit.prototype.raiseNewPayloadAuditEvent = function(internalID, requestID, payload) {
+    var server = this.server;
+    var application = this.appServiceName;
+    var payloadAuditMessage = require('./messageFactory').raisePayloadAuditEvent(internalID, server, application, payload);
+    console.log("setting arguments for refund event");
+    return this.publishObject ('posapi.event.receivedCreatePayloadAudit', 'posapi.event.receivedCreatePayloadAudit', payloadAuditMessage, undefined, requestID);
+};
+
 WascallyRabbit.prototype.raiseErrorResponseEmailAndPersist = function(internalID, requestID, errorStatus, payload) {
     var server = this.server;
     var application = this.appServiceName;
